@@ -15,14 +15,12 @@ $  https://my-endpoint-id.execute-api.eu-central-1.amazonaws.com/predict/
 {"prediction": {"label": "virginica", "probability": 0.9997}}
 ```
 
-### Prerequisities
+### Prerequisities & authentication
 Running on 
 
 - Terraform v0.14.0
 - aws-cli/1.18.206 Python/3.7.9 Darwin/19.6.0 botocore/1.19.46
 
-
-## Authentication:
 We need authenticate to AWS to:
 
 - set up the infrastructure using Terraform
