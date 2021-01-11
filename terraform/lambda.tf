@@ -8,7 +8,7 @@ resource "aws_lambda_function" "lambda_model_function" {
   package_type = "Image"
 
   # we can check the memory usage in the lambda dashboard, sklearn is a bit memory hungry..
-  memory_size = 512
+  memory_size = 256
 
   environment {
     variables = {
