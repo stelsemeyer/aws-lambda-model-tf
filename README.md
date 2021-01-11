@@ -1,6 +1,8 @@
 # Serverless & containerized ML model using AWS Lambda, API Gateway and Terraform
 
-![Lambda model](lambda-model.png)
+<p align="center">
+  <img src="lambda-model.png" />
+</p>
 
 ### Goal:
 
