@@ -17,6 +17,28 @@ resource "aws_lambda_function" "lambda_model_function" {
   }
 }
 
+# as per https://learn.hashicorp.com/tutorials/terraform/lambda-api-gateway
+# provide role with no access policy initially
+resource "aws_iam_role" "lambda_model_role" {
+  name = "my-lambda-model-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_iam_role_policy_attachment" "lambda_model_policy_attachement" {
   role       = aws_iam_role.lambda_model_role.name
   policy_arn = aws_iam_policy.lambda_model_policy.arn
@@ -27,22 +49,25 @@ resource "aws_iam_policy" "lambda_model_policy" {
 
   policy = <<EOF
 {
-   	"Version": "2012-10-17",
-   	"Statement": [{
-   			"Effect": "Allow",
-   			"Action": [
-   				"logs:*"
-   			],
-   			"Resource": "arn:aws:logs:*:*:*"
-   		},
-   		{
-   			"Effect": "Allow",
-   			"Action": [
-   				"s3:*"
-   			],
-   			"Resource": "arn:aws:s3:::${local.bucket_name}/*"
-   		}
-   	]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::${local.bucket_name}/*"
+    }
+  ]
 }
 EOF
 }
